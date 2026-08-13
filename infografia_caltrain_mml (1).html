@@ -1,0 +1,134 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Infografía CALTRAIN - MML</title>
+<!-- Script de Google Charts para los gráficos 3D -->
+<script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+<style>
+body{margin:0;background:#f5f7fb;font-family:Arial,sans-serif;color:#18243a}
+.wrap{max-width:1200px;margin:30px auto;padding:20px}
+.card{background:#fff;border:1px solid #dbe2ec;border-radius:18px;padding:25px;margin:18px 0;box-shadow:0 4px 15px rgba(0,0,0,.05)}
+h1{margin:0 0 6px;font-size:32px} .sub{color:#64748b;margin-bottom:25px}
+.stage{display:grid;grid-template-columns:1fr 120px 1fr;align-items:center;gap:15px;text-align:center}
+.stagebox{padding:25px;border-radius:14px;background:#eef4ff;border:1px solid #c7d7fe}
+.stagebox.two{background:#f1f5f9;border-color:#cbd5e1}
+.badge{font-weight:800;font-size:20px;color:#1d4ed8;margin-top:10px}
+.timeline{height:8px;background:#cbd5e1;border-radius:10px;position:relative}
+.dot{width:34px;height:34px;border-radius:50%;background:#1d4ed8;color:#fff;display:flex;align-items:center;justify-content:center;font-weight:800;position:absolute;top:50%;transform:translate(-50%,-50%)}
+.dot.a{left:0} .dot.b{right:-34px;background:#64748b}
+.grid{display:grid;grid-template-columns:1fr 1fr;gap:20px;margin-top:20px;}
+.kpi{padding:20px;border-radius:14px;background:#f8fafc}
+.kpi strong{display:block;font-size:28px;margin-top:8px}
+.note{background:#18243a;color:#e2e8f0;border-radius:16px;padding:22px}
+button{border:0;border-radius:10px;padding:12px 18px;background:#1d4ed8;color:white;font-weight:700;cursor:pointer}
+.small{font-size:13px;color:#64748b}
+/* Contenedores para los gráficos */
+.chart-container{width:100%;height:350px;margin:10px 0;}
+@media(max-width:800px){.stage,.grid{grid-template-columns:1fr}.timeline{display:none}}
+</style>
+</head>
+<body>
+<div class="wrap">
+<h1>Donación CALTRAIN – Municipalidad Metropolitana de Lima</h1>
+<div class="sub">Acuerdo de Concejo N.° 419 · Etapas y estructura del gasto estimado</div>
+
+<div class="card">
+<h2>1. Etapas</h2>
+<div class="stage">
+  <div class="stagebox">
+    <b>ETAPA I</b>
+    <p>Aceptación de los bienes ferroviarios, remoción y traslado desde California hasta Lima.</p>
+    <div class="badge">US$ 24.502.915*</div>
+  </div>
+  <div class="timeline"><span class="dot a">I</span><span class="dot b">II</span></div>
+  <div class="stagebox two">
+    <b>ETAPA II</b>
+    <p>Evaluación de una Asociación Público-Privada para operar el servicio Desamparados–Chosica.</p>
+    <div class="badge" style="color:#64748b">Sin costo cuantificado</div>
+  </div>
+</div>
+</div>
+
+<div class="card">
+<h2>2. Cuadro del gasto estimado</h2>
+<p><b>Total aproximado: US$ 24.502.915</b></p>
+<!-- Contenedor del Gráfico 3D 1 -->
+<div id="piechart_gasto" class="chart-container"></div>
+
+<div class="grid">
+<div class="kpi"><b>Aceptación del material ferroviario</b><strong>US$ 7.502.915</strong><span>US$ 1.000.000 + US$ 6.502.915</span></div>
+<div class="kpi"><b>Remoción y traslado</b><strong>US$ 17.000.000</strong><span>Desde California hasta Lima</span></div>
+</div>
+</div>
+
+<div class="card">
+<h2>3. Desagregado de los US$ 7,5 millones</h2>
+<!-- Contenedor del Gráfico 3D 2 -->
+<div id="piechart_desagregado" class="chart-container"></div>
+
+<div class="grid">
+<div class="kpi"><b>Transferencia anticipada</b><strong>US$ 1.000.000</strong><span>Por cargos de cancelación anticipada.</span></div>
+<div class="kpi"><b>Otros costos de aceptación</b><strong>US$ 6.502.915</strong><span>Componente restante de la aceptación del material.</span></div>
+</div>
+</div>
+
+<div class="note">
+<b>Lectura clave:</b> aproximadamente 69 de cada US$ 100 del gasto estimado corresponden a la remoción y traslado; cerca de US$ 31 corresponden a la aceptación del material ferroviario.
+</div>
+
+<p class="small">*La imagen fuente consigna US$ 24.502.915 como gasto aproximado y US$ 7.502.915 por aceptación. La etapa II se presenta como evaluación de una APP y no tiene un costo cuantificado en el documento.</p>
+<button onclick="descargar()">Descargar HTML</button>
+</div>
+
+<script>
+// Configuración de Google Charts
+google.charts.load('current', {'packages':['corechart']});
+google.charts.setOnLoadCallback(drawCharts);
+
+function drawCharts() {
+  // Datos y opciones para el Gráfico 1 (Gasto estimado)
+  var data1 = google.visualization.arrayToDataTable([
+    ['Categoría', 'Monto (US$)'],
+    ['Aceptación del material ferroviario', 7502915],
+    ['Remoción y traslado', 17000000]
+  ]);
+  var options1 = {
+    is3D: true,
+    backgroundColor: 'transparent',
+    colors: ['#1d4ed8', '#f59e0b'],
+    legend: {position: 'bottom', textStyle: {fontSize: 14, color: '#18243a'}},
+    chartArea: {width: '100%', height: '80%'}
+  };
+  var chart1 = new google.visualization.PieChart(document.getElementById('piechart_gasto'));
+  chart1.draw(data1, options1);
+
+  // Datos y opciones para el Gráfico 2 (Desagregado de 7.5M)
+  var data2 = google.visualization.arrayToDataTable([
+    ['Categoría', 'Monto (US$)'],
+    ['Transferencia anticipada', 1000000],
+    ['Otros costos de aceptación', 6502915]
+  ]);
+  var options2 = {
+    is3D: true,
+    backgroundColor: 'transparent',
+    colors: ['#2563eb', '#93c5fd'],
+    legend: {position: 'bottom', textStyle: {fontSize: 14, color: '#18243a'}},
+    chartArea: {width: '100%', height: '80%'}
+  };
+  var chart2 = new google.visualization.PieChart(document.getElementById('piechart_desagregado'));
+  chart2.draw(data2, options2);
+}
+
+// Redibujar gráficos si se cambia el tamaño de la ventana (para mantener responsive)
+window.addEventListener('resize', drawCharts);
+
+// Función de descarga
+function descargar(){
+ const blob=new Blob([document.documentElement.outerHTML],{type:'text/html;charset=utf-8'});
+ const a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download='infografia_caltrain_mml_3d.html';a.click();
+ setTimeout(()=>URL.revokeObjectURL(a.href),1000);
+}
+</script>
+</body></html>
