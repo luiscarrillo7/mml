@@ -6,9 +6,11 @@
 <title>Infografía CALTRAIN - MML</title>
 <!-- Script de Google Charts para los gráficos 3D -->
 <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+<!-- Script de html2canvas para convertir HTML a Imagen -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
 <style>
 body{margin:0;background:#f5f7fb;font-family:Arial,sans-serif;color:#18243a}
-.wrap{max-width:1200px;margin:30px auto;padding:20px}
+.wrap{max-width:1200px;margin:30px auto;padding:20px; background:#f5f7fb;} /* Fondo añadido para la captura */
 .card{background:#fff;border:1px solid #dbe2ec;border-radius:18px;padding:25px;margin:18px 0;box-shadow:0 4px 15px rgba(0,0,0,.05)}
 h1{margin:0 0 6px;font-size:32px} .sub{color:#64748b;margin-bottom:25px}
 .stage{display:grid;grid-template-columns:1fr 120px 1fr;align-items:center;gap:15px;text-align:center}
@@ -22,7 +24,10 @@ h1{margin:0 0 6px;font-size:32px} .sub{color:#64748b;margin-bottom:25px}
 .kpi{padding:20px;border-radius:14px;background:#f8fafc}
 .kpi strong{display:block;font-size:28px;margin-top:8px}
 .note{background:#18243a;color:#e2e8f0;border-radius:16px;padding:22px}
-button{border:0;border-radius:10px;padding:12px 18px;background:#1d4ed8;color:white;font-weight:700;cursor:pointer}
+.btn-container{display:flex;gap:15px;margin-top:20px}
+button{border:0;border-radius:10px;padding:12px 18px;background:#1d4ed8;color:white;font-weight:700;cursor:pointer; transition: 0.2s;}
+button:hover{opacity:0.9}
+.btn-img{background:#059669;} /* Color verde para el botón de imagen */
 .small{font-size:13px;color:#64748b}
 /* Contenedores para los gráficos */
 .chart-container{width:100%;height:350px;margin:10px 0;}
@@ -30,56 +35,61 @@ button{border:0;border-radius:10px;padding:12px 18px;background:#1d4ed8;color:wh
 </style>
 </head>
 <body>
-<div class="wrap">
-<h1>Donación CALTRAIN – Municipalidad Metropolitana de Lima</h1>
-<div class="sub">Acuerdo de Concejo N.° 419 · Etapas y estructura del gasto estimado</div>
+<div class="wrap" id="infografia">
+  <h1>Donación CALTRAIN – Municipalidad Metropolitana de Lima</h1>
+  <div class="sub">Acuerdo de Concejo N.° 419 · Etapas y estructura del gasto estimado</div>
 
-<div class="card">
-<h2>1. Etapas</h2>
-<div class="stage">
-  <div class="stagebox">
-    <b>ETAPA I</b>
-    <p>Aceptación de los bienes ferroviarios, remoción y traslado desde California hasta Lima.</p>
-    <div class="badge">US$ 24.502.915*</div>
+  <div class="card">
+  <h2>1. Etapas</h2>
+  <div class="stage">
+    <div class="stagebox">
+      <b>ETAPA I</b>
+      <p>Aceptación de los bienes ferroviarios, remoción y traslado desde California hasta Lima.</p>
+      <div class="badge">US$ 24.502.915*</div>
+    </div>
+    <div class="timeline"><span class="dot a">I</span><span class="dot b">II</span></div>
+    <div class="stagebox two">
+      <b>ETAPA II</b>
+      <p>Evaluación de una Asociación Público-Privada para operar el servicio Desamparados–Chosica.</p>
+      <div class="badge" style="color:#64748b">Sin costo cuantificado</div>
+    </div>
   </div>
-  <div class="timeline"><span class="dot a">I</span><span class="dot b">II</span></div>
-  <div class="stagebox two">
-    <b>ETAPA II</b>
-    <p>Evaluación de una Asociación Público-Privada para operar el servicio Desamparados–Chosica.</p>
-    <div class="badge" style="color:#64748b">Sin costo cuantificado</div>
   </div>
-</div>
-</div>
 
-<div class="card">
-<h2>2. Cuadro del gasto estimado</h2>
-<p><b>Total aproximado: US$ 24.502.915</b></p>
-<!-- Contenedor del Gráfico 3D 1 -->
-<div id="piechart_gasto" class="chart-container"></div>
+  <div class="card">
+  <h2>2. Cuadro del gasto estimado</h2>
+  <p><b>Total aproximado: US$ 24.502.915</b></p>
+  <!-- Contenedor del Gráfico 3D 1 -->
+  <div id="piechart_gasto" class="chart-container"></div>
 
-<div class="grid">
-<div class="kpi"><b>Aceptación del material ferroviario</b><strong>US$ 7.502.915</strong><span>US$ 1.000.000 + US$ 6.502.915</span></div>
-<div class="kpi"><b>Remoción y traslado</b><strong>US$ 17.000.000</strong><span>Desde California hasta Lima</span></div>
-</div>
-</div>
+  <div class="grid">
+  <div class="kpi"><b>Aceptación del material ferroviario</b><strong>US$ 7.502.915</strong><span>US$ 1.000.000 + US$ 6.502.915</span></div>
+  <div class="kpi"><b>Remoción y traslado</b><strong>US$ 17.000.000</strong><span>Desde California hasta Lima</span></div>
+  </div>
+  </div>
 
-<div class="card">
-<h2>3. Desagregado de los US$ 7,5 millones</h2>
-<!-- Contenedor del Gráfico 3D 2 -->
-<div id="piechart_desagregado" class="chart-container"></div>
+  <div class="card">
+  <h2>3. Desagregado de los US$ 7,5 millones</h2>
+  <!-- Contenedor del Gráfico 3D 2 -->
+  <div id="piechart_desagregado" class="chart-container"></div>
 
-<div class="grid">
-<div class="kpi"><b>Transferencia anticipada</b><strong>US$ 1.000.000</strong><span>Por cargos de cancelación anticipada.</span></div>
-<div class="kpi"><b>Otros costos de aceptación</b><strong>US$ 6.502.915</strong><span>Componente restante de la aceptación del material.</span></div>
-</div>
-</div>
+  <div class="grid">
+  <div class="kpi"><b>Transferencia anticipada</b><strong>US$ 1.000.000</strong><span>Por cargos de cancelación anticipada.</span></div>
+  <div class="kpi"><b>Otros costos de aceptación</b><strong>US$ 6.502.915</strong><span>Componente restante de la aceptación del material.</span></div>
+  </div>
+  </div>
 
-<div class="note">
-<b>Lectura clave:</b> aproximadamente 69 de cada US$ 100 del gasto estimado corresponden a la remoción y traslado; cerca de US$ 31 corresponden a la aceptación del material ferroviario.
-</div>
+  <div class="note">
+  <b>Lectura clave:</b> aproximadamente 69 de cada US$ 100 del gasto estimado corresponden a la remoción y traslado; cerca de US$ 31 corresponden a la aceptación del material ferroviario.
+  </div>
 
-<p class="small">*La imagen fuente consigna US$ 24.502.915 como gasto aproximado y US$ 7.502.915 por aceptación. La etapa II se presenta como evaluación de una APP y no tiene un costo cuantificado en el documento.</p>
-<button onclick="descargar()">Descargar HTML</button>
+  <p class="small">*La imagen fuente consigna US$ 24.502.915 como gasto aproximado y US$ 7.502.915 por aceptación. La etapa II se presenta como evaluación de una APP y no tiene un costo cuantificado en el documento.</p>
+  
+  <!-- Contenedor de Botones -->
+  <div class="btn-container" id="controles">
+    <button onclick="descargar()">Descargar HTML</button>
+    <button class="btn-img" onclick="descargarImagen()">Descargar como Imagen</button>
+  </div>
 </div>
 
 <script>
@@ -88,7 +98,6 @@ google.charts.load('current', {'packages':['corechart']});
 google.charts.setOnLoadCallback(drawCharts);
 
 function drawCharts() {
-  // Datos y opciones para el Gráfico 1 (Gasto estimado)
   var data1 = google.visualization.arrayToDataTable([
     ['Categoría', 'Monto (US$)'],
     ['Aceptación del material ferroviario', 7502915],
@@ -104,7 +113,6 @@ function drawCharts() {
   var chart1 = new google.visualization.PieChart(document.getElementById('piechart_gasto'));
   chart1.draw(data1, options1);
 
-  // Datos y opciones para el Gráfico 2 (Desagregado de 7.5M)
   var data2 = google.visualization.arrayToDataTable([
     ['Categoría', 'Monto (US$)'],
     ['Transferencia anticipada', 1000000],
@@ -121,14 +129,38 @@ function drawCharts() {
   chart2.draw(data2, options2);
 }
 
-// Redibujar gráficos si se cambia el tamaño de la ventana (para mantener responsive)
 window.addEventListener('resize', drawCharts);
 
-// Función de descarga
+// Función para descargar HTML
 function descargar(){
  const blob=new Blob([document.documentElement.outerHTML],{type:'text/html;charset=utf-8'});
  const a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download='infografia_caltrain_mml_3d.html';a.click();
  setTimeout(()=>URL.revokeObjectURL(a.href),1000);
+}
+
+// Función nueva para descargar Imagen
+function descargarImagen() {
+  // 1. Escondemos los botones temporalmente para que no salgan en la foto
+  const controles = document.getElementById('controles');
+  controles.style.display = 'none';
+
+  // 2. Apuntamos al contenedor principal que queremos capturar
+  const elemento = document.getElementById('infografia');
+
+  // 3. Usamos html2canvas para tomar la captura (escala 2 para mejor resolución)
+  html2canvas(elemento, { scale: 2, backgroundColor: "#f5f7fb" }).then(canvas => {
+    // Restauramos los botones
+    controles.style.display = 'flex';
+
+    // Creamos el enlace virtual para forzar la descarga de la imagen
+    const enlace = document.createElement('a');
+    enlace.download = 'infografia_caltrain_mml.png';
+    enlace.href = canvas.toDataURL("image/png");
+    enlace.click();
+  }).catch(err => {
+    console.error("Error al generar la imagen: ", err);
+    controles.style.display = 'flex'; // Restaurar botones en caso de error
+  });
 }
 </script>
 </body></html>
